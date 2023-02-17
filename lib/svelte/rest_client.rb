@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 require 'faraday'
-require 'faraday_middleware'
-require 'typhoeus'
-require 'typhoeus/adapters/faraday'
+require 'faraday/typhoeus'
 
 module Svelte
   # Rest client to make requests to the service endpoints
@@ -40,6 +38,7 @@ module Svelte
         @@connection ||= Faraday.new(ssl: { verify: true }) do |faraday|
           faraday.request :json
           faraday.response :json, content_type: /\bjson$/
+          faraday.response :raise_error
           faraday.adapter :typhoeus
         end
       end

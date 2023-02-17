@@ -9,10 +9,9 @@ describe Svelte::RestClient do
 
   it 'should return an http response' do
     stub_request(verb, test_url)
-      .to_return(status: 404, body: '', headers: {})
-
-    expect(described_class.call(verb: verb, url: test_url))
-      .to be_an_instance_of(Faraday::Response)
+      .to_return(status: 404, body: error_message, headers: {})
+    expect { described_class.call(verb: verb, url: test_url) }
+      .to raise_error(Svelte::HTTPError)
   end
 
   context 'when the remote service is very slow' do
@@ -57,7 +56,7 @@ describe Svelte::RestClient do
 
     it 'sets up a timeout option on the request' do
       stub_request(verb, test_url)
-        .to_return(status: 404, body: '', headers: {})
+        .to_return(status: 200, body: '', headers: {})
 
       expect(described_class.call(verb: verb,
                                   url: test_url,

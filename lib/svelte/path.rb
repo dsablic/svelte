@@ -29,9 +29,9 @@ module Svelte
       path_elements = @path.split('/').reject(&:empty?)
       @non_parameter_elements,
       @parameter_elements = path_elements.partition do |element|
-        !element.match(/\{\w+\}/)
+        !element.match(/\{[-\w]+\}/)
       end
-      @parameter_elements.map! { |p| p.scan(/{(\w*)}/) }.flatten!
+      @parameter_elements.map! { |p| p.scan(/{([-\w]*)}/) }.flatten!
     end
 
     def validate_operations
