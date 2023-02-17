@@ -89,7 +89,7 @@ module Svelte
     end
 
     def validate_base_path
-      unless raw_hash['basePath'].is_a?(String)
+      unless raw_hash['basePath'].is_a?(String) || !raw_hash['basePath']
         raise JSONError, '`basePath` field in JSON is invalid'
       end
     end
